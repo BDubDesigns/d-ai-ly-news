@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "editions": [
+    {
+      "date": "2026-10-14",
+      "label": "October 14, 2026",
+      "title": "The first desk test",
+      "file": "editions/2026-10-14.json",
+      "storyCount": 4,
+      "isSample": true
+    }
+  ]
+}

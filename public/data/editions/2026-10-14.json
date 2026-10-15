@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "2026-10-14",
+  "date": "2026-10-14",
+  "title": "The first desk test",
+  "isSample": true,
+  "leadArticleId": "ai-questions",
+  "sections": [
+    {
+      "id": "ai",
+      "title": "AI & Technology",
+      "kicker": "THE FRONTIER",
+      "articles": [
+        {
+          "id": "ai-questions",
+          "kicker": "AI & TECHNOLOGY",
+          "title": "Every AI launch begins with a better question",
+          "dek": "A sample lead story for the future daily edition.",
+          "summary": "This preview slot will become a concise account of a verified AI development, written from source material rather than speculation. The production edition will make clear what changed, who is affected, and what remains uncertain.",
+          "whyItMatters": "Readers should be able to see both the headline and the evidence behind it.",
+          "readingMinutes": 2,
+          "sources": [{ "title": "Example source (placeholder)", "url": "https://example.org/ai" }]
+        },
+        {
+          "id": "ai-infrastructure",
+          "kicker": "INDUSTRY",
+          "title": "The infrastructure story behind the next model",
+          "dek": "A placeholder for the practical details behind the big announcement.",
+          "summary": "Daily coverage can connect model releases to the chips, energy, data, and deployment choices that shape how people actually encounter AI. This is sample text, not a report about a real announcement.",
+          "whyItMatters": "The context often explains more than a benchmark or launch-day claim on its own.",
+          "readingMinutes": 2,
+          "sources": [{ "title": "Example source (placeholder)", "url": "https://example.org/infrastructure" }]
+        }
+      ]
+    },
+    {
+      "id": "politics",
+      "title": "American Politics",
+      "kicker": "THE REPUBLIC",
+      "articles": [
+        {
+          "id": "politics-decisions",
+          "kicker": "WASHINGTON",
+          "title": "What a decision in Washington changes at home",
+          "dek": "A sample frame for following federal policy through to everyday life.",
+          "summary": "This placeholder shows how a politics story can separate the decision itself from arguments about its effects. A finished article will link to primary records and independent reporting, and will flag important unknowns rather than filling them with guesses.",
+          "whyItMatters": "The goal is to explain consequences without asking readers to adopt a party’s framing.",
+          "readingMinutes": 3,
+          "sources": [{ "title": "Example source (placeholder)", "url": "https://example.org/politics" }]
+        },
+        {
+          "id": "politics-local",
+          "kicker": "AROUND THE COUNTRY",
+          "title": "The local angle can change the national story",
+          "dek": "A placeholder for state, local, and community perspectives.",
+          "summary": "National politics is not experienced uniformly. A daily brief can surface a local or regional view alongside national coverage, while keeping the source, date, and scope of each claim visible.",
+          "whyItMatters": "A wider lens makes it easier to understand who is missing from a headline.",
+          "readingMinutes": 2,
+          "sources": [{ "title": "Example source (placeholder)", "url": "https://example.org/local" }]
+        }
+      ]
+    }
+  ]
+}
