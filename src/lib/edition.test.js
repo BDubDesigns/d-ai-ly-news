@@ -36,3 +36,8 @@ test('keeps archived editions newest-first without mutating the source list', ()
   assert.deepEqual(sorted.map(({ date }) => date), ['2026-10-14', '2026-10-13']);
   assert.equal(source[0].date, '2026-10-13');
 });
+
+test('spoken text includes the asides after the reporting', () => {
+  const article = { title: 'Headline', summary: 'The facts.', asides: ['Tremendous. Believe me.'] };
+  assert.equal(articleSpeechText(article), 'Headline. The facts. Tremendous. Believe me.');
+});

@@ -5,7 +5,8 @@ export function flattenArticles(edition) {
 }
 
 export function articleSpeechText(article) {
-  return [article?.title, article?.dek, article?.summary, article?.whyItMatters]
+  const asides = Array.isArray(article?.asides) ? article.asides : [];
+  return [article?.title, article?.dek, article?.summary, article?.whyItMatters, ...asides]
     .map((part) => typeof part === 'string' ? part.replace(/\s+/g, ' ').trim() : '')
     .filter(Boolean)
     .map((part) => /[.!?…]$/.test(part) ? part : `${part}.`)

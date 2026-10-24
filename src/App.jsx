@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { articleSpeechText, flattenArticles, sortEditions } from './lib/edition.js';
 import { chunkText } from './lib/speech.js';
 import { addToQueue, afterFinish, toggleQueue } from './lib/queue.js';
+import { upsertFeedback } from './lib/feedback.js';
 import { buildSilentWav } from './lib/silence.js';
 
 const DATA_BASE = `${import.meta.env.BASE_URL}data/`;
@@ -36,7 +37,9 @@ function SourceLinks({ sources = [] }) {
   ))}</div>;
 }
 
-function ArticleCard({ article, reader, onListen, onToggleQueue, queued }) {
+function ArticleCard({ article, reader, onListen, onToggleQueue, queued, feedback, onFeedback }) {
+  const [drafting, setDrafting] = useState(false);
+  const [comment, setComment] = useState(feedback?.comment || '');
   const active = reader.articleId === article.id && ['speaking', 'paused'].includes(reader.status);
   const label = active ? (reader.status === 'paused' ? 'Resume story' : 'Pause story') : 'Listen to story';
   return <article className={`story-card${active ? ' is-reading' : ''}`}>
@@ -44,6 +47,20 @@ function ArticleCard({ article, reader, onListen, onToggleQueue, queued }) {
     <h3>{article.title}</h3>{article.dek && <p className="story-dek">{article.dek}</p>}
     <p className="story-summary">{article.summary}</p>
     {article.whyItMatters && <div className="why-box"><span>WHY IT MATTERS</span><p>{article.whyItMatters}</p></div>}
+    {Array.isArray(article.asides) && article.asides.length > 0 && <div className="asides">{article.asides.map((line, index) => <p key={index}>{line}</p>)}</div>}
+    <div className="feedback-row">
+      <button className={`verdict${feedback?.verdict === 'like' ? ' is-on' : ''}`} onClick={() => onFeedback(article, 'like')} aria-pressed={feedback?.verdict === 'like'}>Helpful</button>
+      <button className={`verdict${feedback?.verdict === 'dislike' ? ' is-on' : ''}`} onClick={() => onFeedback(article, 'dislike')} aria-pressed={feedback?.verdict === 'dislike'}>Not for me</button>
+      <button className="verdict verdict-note" onClick={() => setDrafting((open) => !open)}>{comment ? 'Edit note' : 'Why?'}</button>
+    </div>
+    {drafting && <textarea
+      className="feedback-note"
+      placeholder="What did you like or dislike about this one?"
+      value={comment}
+      onChange={(event) => setComment(event.target.value)}
+      onBlur={() => onFeedback(article, feedback?.verdict || 'note', comment)}
+      rows={3}
+    />}
     <div className="story-card-footer"><SourceLinks sources={article.sources} /><button className="listen-link" onClick={() => onListen(article)} aria-label={label}>
       <Glyph name={active && reader.status === 'speaking' ? 'pause' : 'play'} size={15} />{active ? (reader.status === 'paused' ? 'Resume' : 'Playing') : 'Listen'}
     </button></div>
@@ -62,6 +79,7 @@ function App() {
   const [voices, setVoices] = useState([]);
   const [queue, setQueue] = useState([]);
   const queueRef = useRef([]);
+  const [feedback, setFeedback] = useState([]);
   const voiceRef = useRef(null);
   const statusRef = useRef('idle');
   const sessionRef = useRef(null);
@@ -110,6 +128,15 @@ function App() {
   }, [manifest, activeDate]);
 
   useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem('daymark.feedback.v1');
+      if (stored) setFeedback(JSON.parse(stored));
+    } catch {
+      setFeedback([]);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!('speechSynthesis' in window)) return undefined;
     const load = () => {
       const list = window.speechSynthesis.getVoices() || [];
@@ -140,6 +167,46 @@ function App() {
 
   function articleById(id) {
     return articles.find((article) => article.id === id);
+  }
+
+  function saveFeedback(article, verdict, comment) {
+    setFeedback((current) => {
+      const previous = current.find((entry) => entry.date === edition?.date && entry.articleId === article.id);
+      const next = upsertFeedback(current, {
+        date: edition?.date,
+        articleId: article.id,
+        title: article.title,
+        sectionId: article.sectionId || '',
+        verdict: verdict === 'note' ? (previous?.verdict || 'note') : verdict,
+        comment: typeof comment === 'string' ? comment : (previous?.comment || ''),
+      });
+      try {
+        window.localStorage.setItem('daymark.feedback.v1', JSON.stringify(next));
+      } catch {
+        return next;
+      }
+      return next;
+    });
+  }
+
+  function exportFeedback() {
+    const text = JSON.stringify({ edition: edition?.date, entries: feedback }, null, 2);
+    try {
+      if (navigator.clipboard) navigator.clipboard.writeText(text);
+    } catch {
+      return;
+    }
+    try {
+      const blob = new Blob([text], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'daymark-feedback.json';
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch {
+      return;
+    }
   }
 
   function speakSupported() {
@@ -516,13 +583,14 @@ function App() {
         <div className="coverage-layout"><div className="coverage-main">
           {sectionContent.map((section, index) => <section className="coverage-section" key={section.id}>
             <div className="section-heading"><div className={`section-marker marker-${index % 2}`}><span>{index === 0 ? 'A' : 'U'}</span></div><div><span className="eyebrow">{section.kicker || (index === 0 ? 'THE FRONTIER' : 'THE REPUBLIC')}</span><h2>{section.title}</h2></div><span className="section-total">{String(section.articles.length).padStart(2, '0')} STORIES</span></div>
-            <div className="story-grid">{section.articles.map((article) => <ArticleCard key={article.id} article={{ ...article, sectionTitle: section.title }} reader={reader} onListen={toggleArticle} onToggleQueue={toggleQueueItem} queued={queue.includes(article.id)} />)}</div>
+            <div className="story-grid">{section.articles.map((article) => <ArticleCard key={article.id} article={{ ...article, sectionTitle: section.title }} reader={reader} onListen={toggleArticle} onToggleQueue={toggleQueueItem} queued={queue.includes(article.id)} feedback={feedback.find((entry) => entry.date === edition?.date && entry.articleId === article.id)} onFeedback={saveFeedback} />)}</div>
           </section>)}
           {!sectionContent.length && <p className="empty-section">This edition is ready for its first stories.</p>}
         </div>
         <aside className="reading-note"><span className="eyebrow">OUR PROMISE</span><div className="promise-mark"><Glyph name="sparkle" size={20} /></div><h3>Curious, not breathless.</h3><p>We keep the important details, show the sources, and leave the spin at the door.</p><button className="archive-text-button" onClick={() => setArchiveOpen(true)}>Visit the archive <Glyph name="arrow" size={14} /></button></aside>
         </div>
-        <footer className="site-footer"><span>DAYMARK<span className="brand-dot">.</span></span><span>Made to read. Built to cite.</span><button onClick={() => setArchiveOpen(true)}>Past editions <Glyph name="arrow" size={13} /></button></footer>
+        <footer className="site-footer"><span>DAYMARK<span className="brand-dot">.</span></span><span>Made to read. Built to cite.</span><button onClick={exportFeedback}>Export feedback{feedback.length ? ` (${feedback.length})` : ''} <Glyph name="arrow" size={13} /></button>
+        <button onClick={() => setArchiveOpen(true)}>Past editions</button></footer>
       </main>
       {reader.mode && <div className="audio-dock" role="region" aria-label="Audio player" aria-live="polite">
         <div className="dock-icon"><Glyph name="headphones" size={19} /></div>

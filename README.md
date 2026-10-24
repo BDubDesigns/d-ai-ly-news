@@ -35,3 +35,18 @@ An edition contains a `date`, `isSample`, `leadArticleId`, and `sections`. Each 
 The daily generator is a follow-up step: search, summarize with source citations, write a new dated JSON file, then prepend it to the manifest. Store the Tavily key in AndroidHarness secure secret settings if available—never in the prompt or committed JSON.
 
 This GitHub repository is **public**. Any real editions pushed here would also be public. Keep daily output on-device unless you explicitly want to publish the archive.
+
+## Interests, watchlist, and feedback
+
+`data/preferences.json` is the editorial brief the daily run should read first: desks and their focus,
+local coverage (Bellingham, Whatcom and Skagit counties, Washington State), the watchlist, the
+no-filler rule, and tone guidance. Edit it by hand or ask the agent to update it.
+
+Each article may carry `asides`: short reactions spoken after the reporting and shown as set-off
+commentary. Keep the reporting straight and let the asides carry the voice.
+
+Feedback controls on each story store a verdict and an optional note in the browser's local storage,
+keyed by edition date and article id. **Export feedback** in the footer copies the JSON to the
+clipboard and downloads `daymark-feedback.json`. The daily run cannot read browser storage, so drop
+the exported file into this folder (or paste it into the automation prompt) for the next edition to
+use. Do not commit exported feedback to this public repository.

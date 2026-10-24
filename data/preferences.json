@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "cadence": "daily, including weekends",
+  "storyCount": "as many as the day genuinely earns, between 2 and 8; never pad with filler",
+  "desks": [
+    {
+      "id": "ai",
+      "title": "AI & Technology",
+      "kicker": "THE FRONTIER",
+      "focus": [
+        "new model releases",
+        "research results with real consequences",
+        "AI business and policy decisions",
+        "tools people actually use"
+      ]
+    },
+    {
+      "id": "politics",
+      "title": "American Politics",
+      "kicker": "THE REPUBLIC",
+      "focus": [
+        "major national political news",
+        "Washington State politics",
+        "Whatcom County and Skagit County",
+        "Bellingham city decisions"
+      ]
+    }
+  ],
+  "alwaysCover": [
+    "AI model releases and capability jumps"
+  ],
+  "local": {
+    "city": "Bellingham, WA",
+    "counties": [
+      "Whatcom County, WA",
+      "Skagit County, WA"
+    ],
+    "state": "Washington"
+  },
+  "watchlist": [
+    {
+      "topic": "James Talarico's campaign (Texas)",
+      "why": "Signal of shifting sentiment among Southern voters, even though it is not local"
+    }
+  ],
+  "tone": {
+    "reporting": "straight, cited, no spin",
+    "persona": "the reading voice adds reactions; the writing keeps the facts intact",
+    "asidesPerStory": "1 to 3, only where a reaction is genuinely funny"
+  },
+  "avoid": [
+    "filler stories",
+    "speculation presented as fact",
+    "duplicate coverage of a story already covered this week"
+  ]
+}

@@ -245,3 +245,13 @@ button:focus-visible, a:focus-visible { outline: 3px solid #77a5ff; outline-offs
 .queue-link { flex: 0 0 auto; min-height: 30px; padding: 6px 10px; border: 1px dashed #b9cbd3; border-radius: 999px; background: transparent; color: #54707b; cursor: pointer; font-size: 10px; font-weight: 700; }
 .queue-link:hover { border-color: #6c94ed; color: var(--blue-deep); }
 .queue-link.is-queued { border-style: solid; border-color: #9db8ee; background: #eaf1ff; color: #244a86; }
+
+.asides { margin: 12px 0 0; padding: 10px 12px 10px 14px; border-left: 3px solid var(--coral); background: #fff6f2; }
+.asides p { margin: 0 0 6px; color: #7c4636; font-size: 12px; font-style: italic; line-height: 1.6; }
+.asides p:last-child { margin-bottom: 0; }
+.feedback-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.verdict { min-height: 30px; padding: 0 10px; border: 1px solid #dbe4e7; border-radius: 999px; background: #fff; color: #5b7480; cursor: pointer; font-size: 10px; font-weight: 600; }
+.verdict:hover { border-color: #a8c0ca; }
+.verdict.is-on { border-color: var(--blue); background: #eaf1ff; color: #244a86; }
+.verdict-note { border-style: dashed; }
+.feedback-note { width: 100%; margin-top: 8px; padding: 9px 11px; border: 1px solid #dbe4e7; border-radius: 10px; font-family: inherit; font-size: 12px; resize: vertical; }
