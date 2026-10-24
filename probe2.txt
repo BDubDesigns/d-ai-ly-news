@@ -1,0 +1,2 @@
+{reader.mode && <div className="audio-dock">
+const items = reader.mode === "article" ? articles.filter((item) => item.id === reader.articleId) : articles;

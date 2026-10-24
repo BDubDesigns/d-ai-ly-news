@@ -1,0 +1,1 @@
+B <span style={{ width: `${x}%` }} />

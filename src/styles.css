@@ -236,3 +236,12 @@ button:focus-visible, a:focus-visible { outline: 3px solid #77a5ff; outline-offs
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+.voice-picker { display: block; margin-top: 12px; }
+.voice-picker span { display: block; margin-bottom: 5px; color: #738991; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.voice-picker select { width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid #d6e0e4; border-radius: 10px; background: #fff; color: var(--ink); font-size: 12px; }
+
+.story-card-footer { flex-wrap: wrap; row-gap: 8px; }
+.queue-link { flex: 0 0 auto; min-height: 30px; padding: 6px 10px; border: 1px dashed #b9cbd3; border-radius: 999px; background: transparent; color: #54707b; cursor: pointer; font-size: 10px; font-weight: 700; }
+.queue-link:hover { border-color: #6c94ed; color: var(--blue-deep); }
+.queue-link.is-queued { border-style: solid; border-color: #9db8ee; background: #eaf1ff; color: #244a86; }
