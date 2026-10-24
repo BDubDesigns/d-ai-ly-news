@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "id": "2026-10-24",
+  "date": "2026-10-24",
+  "title": "Nine days out",
+  "leadArticleId": "trump-blitz",
+  "sections": [
+    {
+      "id": "ai",
+      "title": "AI & Technology",
+      "kicker": "THE FRONTIER",
+      "articles": [
+        {
+          "id": "meta-muse",
+          "kicker": "MODELS",
+          "title": "Meta ships its first frontier model, and it is built to remember",
+          "dek": "Muse Wonder and Muse Wonder Full arrived October 12, aimed squarely at agentic work.",
+          "summary": "Meta released Muse Wonder and Muse Wonder Full, its most capable models to date, built for agentic tasks and long-running memory. Muse Wonder is available through the Meta Model API and Muse Code, while the Full version is limited to Muse Code subscribers. Reporting puts API pricing at $4 per million input tokens and $20 per million output, in the same bracket as the top tier of competitors.",
+          "whyItMatters": "Meta spent years giving models away. Charging frontier prices changes who can afford to build on it.",
+          "readingMinutes": 2,
+          "asides": [
+            "You wanna know my take? Everybody said Meta was finished. Finished! Now they come back with the greatest memory anybody has ever seen. I said it would happen. Many people are saying it.",
+            "And the price? Four dollars. Twenty dollars. Tremendous numbers. The best numbers."
+          ],
+          "sources": [
+            {
+              "title": "AI news October 2026: fifteen developments (Hello Growth)",
+              "url": "https://hellogrowth.ai/en/blog/ai-news-october-2026"
+            }
+          ]
+        },
+        {
+          "id": "haiku-55",
+          "kicker": "PRICING",
+          "title": "Anthropic's smallest model got much cheaper to run",
+          "dek": "Claude Haiku 5.5 landed October 7 at roughly a quarter of the previous generation's price.",
+          "summary": "Anthropic released Claude Haiku 5.5 on October 7, positioning it for high-volume small tasks: summarising, sorting, querying data, and support automation. Pricing is $0.10 per million input tokens and $0.50 per million output tokens for requests up to 100,000 tokens, which reporting describes as about 75 percent cheaper to run than Haiku 4.5.",
+          "whyItMatters": "Cheap small models quietly change products more than frontier launches do, because they make always-on features affordable.",
+          "readingMinutes": 2,
+          "asides": [
+            "You wanna know my take? Seventy-five percent cheaper. Nobody has ever cut a price like that. They come to me, the companies, they say thank you, sir. I say, don't thank me, thank the competition."
+          ],
+          "sources": [
+            {
+              "title": "AI news October 2026 (Hello Growth)",
+              "url": "https://hellogrowth.ai/en/blog/ai-news-october-2026"
+            },
+            {
+              "title": "October 2026 AI model updates (Local AI Zone)",
+              "url": "https://local-ai-zone.github.io/blog/October_2026_AI_Model_Updates.html"
+            }
+          ]
+        },
+        {
+          "id": "deepseek-flash",
+          "kicker": "RELEASES",
+          "title": "DeepSeek quietly shipped the month's sharpest counterpoint",
+          "dek": "A checkpoint update on October 17, with no migration work for anyone already building on it.",
+          "summary": "DeepSeek released DeepSeek-V4.1-Flash-1017 on October 17, its first release of the month and a checkpoint of a model last refreshed on September 10. The naming records the release date, and the API model name remains deepseek-flash, so existing integrations keep working without changes.",
+          "whyItMatters": "Version numbers are marketing. A stable API name is a promise, and it is the one developers actually care about.",
+          "readingMinutes": 2,
+          "asides": [
+            "And here's the thing, folks. They didn't even change the name. Smart. Very smart. You know who would have changed the name nine times? The other guys. Sad."
+          ],
+          "sources": [
+            {
+              "title": "October 2026 AI model updates (Local AI Zone)",
+              "url": "https://local-ai-zone.github.io/blog/October_2026_AI_Model_Updates.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "politics",
+      "title": "American Politics",
+      "kicker": "THE REPUBLIC",
+      "articles": [
+        {
+          "id": "trump-blitz",
+          "kicker": "THE CAMPAIGN",
+          "title": "Trump's closing blitz is also a map of his party's trouble",
+          "dek": "Near-daily rallies, deep in territory that used to be safe.",
+          "summary": "With nine days until the November 3 midterms, President Trump is holding near-daily rallies to turn out Republicans defending narrow majorities. Reuters reports that the travel schedule itself signals difficulty, with the president campaigning in conservative areas where he would not normally need to spend time. The swing also touches Senate races in Texas, Kansas, Ohio, and Iowa, several of which are closer than Republicans expected.",
+          "whyItMatters": "Where a president spends the final week is usually the most honest forecast available, and this one points at defense.",
+          "readingMinutes": 3,
+          "asides": [
+            "You wanna know my take? Tremendous crowds. The biggest. But you don't go to Georgia nine days out if you're winning Georgia. Believe me. I've done the math. Not personally, but I've done it."
+          ],
+          "sources": [
+            {
+              "title": "Five takeaways from Trump's midterm campaign rallies (Reuters)",
+              "url": "https://reuters.com/world/us/five-takeaways-trumps-midterm-campaign-rallies-2026-10-24"
+            }
+          ]
+        },
+        {
+          "id": "talarico-texas",
+          "kicker": "TEXAS",
+          "title": "Talarico votes early in Austin, with the money and the polls both moving his way",
+          "dek": "A Texas Senate race rated a toss-up, and a Democrat who has raised seven times his opponent.",
+          "summary": "James Talarico, the Democratic Senate candidate in Texas, cast his ballot in Austin on Friday, October 23, as early voting runs through October 30. Ballotpedia reports Talarico had raised $68.6 million against Ken Paxton's $9.25 million, with satellite groups spending a combined $255 million as of October 4. Ratings from Cook, Decision Desk, and Sabato's Crystal Ball list the race as a toss-up. A Democrat has not won a Texas Senate seat since 1988.",
+          "whyItMatters": "It is the clearest live test of whether the coalition that turned out in 2024 can be reassembled in the South.",
+          "readingMinutes": 3,
+          "asides": [
+            "You wanna know my take? A seventy-million-dollar Democrat in Texas. Texas! The state I won by a lot. But here's the thing. Money isn't everything. I would know. I have all of it.",
+            "And the young voters. They love him. Frankly, they should love me. But we'll see what happens."
+          ],
+          "sources": [
+            {
+              "title": "United States Senate election in Texas, 2026 (Ballotpedia)",
+              "url": "https://ballotpedia.org/United_States_Senate_election_in_Texas,_2026"
+            },
+            {
+              "title": "Talarico casts ballot in Austin (Houston Chronicle)",
+              "url": "https://houstonchronicle.com/politics/texas-take/article/james-talarico-vote-22491425.php"
+            },
+            {
+              "title": "Democrat James Talarico targets Elon Musk at rally (The Guardian)",
+              "url": "https://theguardian.com/us-news/2026/oct/23/democrat-james-talarico-targets-elon-musk-at-rally-texas-is-not-for-sale"
+            }
+          ]
+        },
+        {
+          "id": "competitive-districts",
+          "kicker": "THE MAP",
+          "title": "Fewer competitive districts means fewer members answerable to anyone",
+          "dek": "The shrinking battleground is both a campaign story and a governing one.",
+          "summary": "The Associated Press reports that the number of politically competitive U.S. House seats has kept shrinking, leaving a narrow battlefield where November 3 will be decided. Nick Troiano, executive director of the group Unite America, argued that voters have little ability to hold Congress accountable outside that window, and said he expects the trend to worsen. Republican strategists describe the contest as a narrow knife fight.",
+          "whyItMatters": "Safe seats are safe for reasons that have nothing to do with persuasion, which is why campaigning harder does not change many outcomes.",
+          "readingMinutes": 3,
+          "asides": [
+            "You wanna know my take? I used to have friends in those safe seats. Very good friends. Now they don't return my calls. And that's fine. Fine!"
+          ],
+          "sources": [
+            {
+              "title": "This US House district shows why Congress is dysfunctional (AP via ABC News)",
+              "url": "https://abcnews.com/Politics/wireStory/us-house-district-political-battleground-now-shows-congress-137534858"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "local",
+      "title": "Whatcom & Washington",
+      "kicker": "AROUND HERE",
+      "articles": [
+        {
+          "id": "el-nino-winter",
+          "kicker": "THE WEATHER",
+          "title": "El Ni\u00f1o is likely to hang around all winter",
+          "dek": "A 75 percent chance of conditions persisting through March 2027.",
+          "summary": "Whatcom News reports that El Ni\u00f1o conditions have roughly a 75 percent chance of lasting through March 2027. For the Pacific Northwest that pattern typically means warmer, drier winters than neutral years, though individual storms and flooding still depend on short-term dynamics that a seasonal outlook cannot promise.",
+          "whyItMatters": "It matters for snowpack, river levels, and whether anyone in Bellingham buys a real winter jacket this year.",
+          "readingMinutes": 2,
+          "asides": [
+            "You wanna know my take? They say warmer. I like warmth. I look great in warmth."
+          ],
+          "sources": [
+            {
+              "title": "What experts are saying about the El Ni\u00f1o expected this winter (Whatcom News)",
+              "url": "https://whatcom-news.com/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

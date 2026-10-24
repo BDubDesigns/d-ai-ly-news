@@ -2,6 +2,14 @@
   "schemaVersion": 1,
   "editions": [
     {
+      "date": "2026-10-24",
+      "label": "October 24, 2026",
+      "title": "Nine days out",
+      "file": "editions/2026-10-24.json",
+      "storyCount": 7,
+      "isSample": false
+    },
+    {
       "date": "2026-10-14",
       "label": "October 14, 2026",
       "title": "The first desk test",

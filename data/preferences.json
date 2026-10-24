@@ -46,11 +46,15 @@
   "tone": {
     "reporting": "straight, cited, no spin",
     "persona": "the reading voice adds reactions; the writing keeps the facts intact",
-    "asidesPerStory": "1 to 3, only where a reaction is genuinely funny"
+    "asidesPerStory": "1 to 2, only where a reaction is genuinely funny",
+    "asideLeadIn": "Open every aside with a short lead-in such as 'You wanna know my take?' or 'And here is the thing, folks.' so it is obvious the aside is commentary, then keep it under 40 words"
   },
   "avoid": [
     "filler stories",
     "speculation presented as fact",
     "duplicate coverage of a story already covered this week"
-  ]
+  ],
+  "quietLocalDay": "If Washington has no real news, run one lighter story from anywhere that this reader would find interesting. Never invent local significance.",
+  "feedbackCadence": "Consolidate feedback weekly into data/feedback-digest.json (themes, not a giant list) and use the digest, not the raw log, when writing new editions",
+  "feedbackSource": "data/feedback.json exported from the reader footer, plus pasted notes"
 }
