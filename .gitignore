@@ -5,3 +5,9 @@ dist/
 !.env.example
 .DS_Store
 models/
+
+harness.bundle.js
+preview.*.html
+probe*.txt
+samples-gen.cjs
+dist/
