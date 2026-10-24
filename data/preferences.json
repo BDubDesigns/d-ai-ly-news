@@ -56,5 +56,14 @@
   ],
   "quietLocalDay": "If Washington has no real news, run one lighter story from anywhere that this reader would find interesting. Never invent local significance.",
   "feedbackCadence": "Consolidate feedback weekly into data/feedback-digest.json (themes, not a giant list) and use the digest, not the raw log, when writing new editions",
-  "feedbackSource": "data/feedback.json exported from the reader footer, plus pasted notes"
+  "feedbackSource": "data/feedback.json exported from the reader footer, plus pasted notes",
+  "confidence": {
+    "required": true,
+    "levels": {
+      "high": "Two or more independent outlets, or the primary record",
+      "medium": "One solid outlet, or details lifted from secondary reporting",
+      "low": "A single source, or a forecast rather than a measurement"
+    },
+    "rule": "Every story carries a confidence level and a one-line reason naming what is thin. Never inflate a score to look tidy."
+  }
 }

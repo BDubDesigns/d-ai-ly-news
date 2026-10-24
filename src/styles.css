@@ -264,3 +264,10 @@ button:focus-visible, a:focus-visible { outline: 3px solid #77a5ff; outline-offs
 .dock-consumption { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 0 4px; color: #cfe0e6; }
 .dock-consumption span { font-size: 12px; font-weight: 700; letter-spacing: .02em; }
 .dock-consumption small { color: #8fa9b3; font-size: 7px; letter-spacing: .12em; text-transform: uppercase; }
+
+.confidence-badge { padding: 2px 7px; border-radius: 999px; font-size: 8px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.confidence-high { background: #e6f3ea; color: #2f6b45; }
+.confidence-medium { background: #fdf1dc; color: #8a6526; }
+.confidence-low { background: #fbe7e3; color: #9c4a36; }
+.story-card-topline { align-items: center; }
+.lead-confidence { max-width: 62%; text-align: right; }

@@ -27,7 +27,11 @@
               "title": "AI news October 2026: fifteen developments (Hello Growth)",
               "url": "https://hellogrowth.ai/en/blog/ai-news-october-2026"
             }
-          ]
+          ],
+          "confidence": {
+            "level": "medium",
+            "note": "Launch confirmed; the $4/$20 pricing comes from secondary reporting rather than Meta's own page."
+          }
         },
         {
           "id": "haiku-55",
@@ -49,7 +53,11 @@
               "title": "October 2026 AI model updates (Local AI Zone)",
               "url": "https://local-ai-zone.github.io/blog/October_2026_AI_Model_Updates.html"
             }
-          ]
+          ],
+          "confidence": {
+            "level": "high",
+            "note": "Release and pricing appear in two independent trackers that agree on the numbers."
+          }
         },
         {
           "id": "deepseek-flash",
@@ -67,7 +75,11 @@
               "title": "October 2026 AI model updates (Local AI Zone)",
               "url": "https://local-ai-zone.github.io/blog/October_2026_AI_Model_Updates.html"
             }
-          ]
+          ],
+          "confidence": {
+            "level": "medium",
+            "note": "Single release tracker; the API-name detail is consistent with DeepSeek's prior checkpoints."
+          }
         }
       ]
     },
@@ -92,7 +104,11 @@
               "title": "Five takeaways from Trump's midterm campaign rallies (Reuters)",
               "url": "https://reuters.com/world/us/five-takeaways-trumps-midterm-campaign-rallies-2026-10-24"
             }
-          ]
+          ],
+          "confidence": {
+            "level": "high",
+            "note": "Reuters reporting on the schedule, with named Senate races corroborated elsewhere."
+          }
         },
         {
           "id": "talarico-texas",
@@ -119,7 +135,11 @@
               "title": "Democrat James Talarico targets Elon Musk at rally (The Guardian)",
               "url": "https://theguardian.com/us-news/2026/oct/23/democrat-james-talarico-targets-elon-musk-at-rally-texas-is-not-for-sale"
             }
-          ]
+          ],
+          "confidence": {
+            "level": "high",
+            "note": "Fundraising from Ballotpedia, the ballot from the Chronicle, polling ratings across three forecasters."
+          }
         },
         {
           "id": "competitive-districts",
@@ -137,7 +157,11 @@
               "title": "This US House district shows why Congress is dysfunctional (AP via ABC News)",
               "url": "https://abcnews.com/Politics/wireStory/us-house-district-political-battleground-now-shows-congress-137534858"
             }
-          ]
+          ],
+          "confidence": {
+            "level": "high",
+            "note": "Associated Press reporting with a named source and a public quote."
+          }
         }
       ]
     },
@@ -162,7 +186,11 @@
               "title": "What experts are saying about the El Ni\u00f1o expected this winter (Whatcom News)",
               "url": "https://whatcom-news.com/"
             }
-          ]
+          ],
+          "confidence": {
+            "level": "low",
+            "note": "One local outlet reporting a seasonal outlook. The percentage is a forecast, not a measurement."
+          }
         }
       ]
     }

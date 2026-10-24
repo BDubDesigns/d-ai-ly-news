@@ -4,6 +4,7 @@ import { chunkText } from './lib/speech.js';
 import { addToQueue, afterFinish, toggleQueue } from './lib/queue.js';
 import { upsertFeedback } from './lib/feedback.js';
 import { isConsumed, markConsumed, reachedThreshold, tally, unmarkConsumed } from './lib/consumed.js';
+import { describeConfidence } from './lib/confidence.js';
 import { buildSilentWav } from './lib/silence.js';
 
 const DATA_BASE = `${import.meta.env.BASE_URL}data/`;
@@ -45,7 +46,7 @@ function ArticleCard({ article, reader, onListen, onToggleQueue, queued, feedbac
   const label = active ? (reader.status === 'paused' ? 'Resume story' : 'Pause story') : 'Listen to story';
   return <article className={`story-card${active ? ' is-reading' : ''}${consumed ? ' is-consumed' : ''}`}>
     {consumed && <span className="consumed-stamp" aria-hidden="true">CONSUMED</span>}
-    <div className="story-card-topline"><span>{article.kicker || 'FIELD NOTES'}</span><span className="story-time">{article.readingMinutes || 2} min read</span></div>
+    <div className="story-card-topline"><span>{article.kicker || 'FIELD NOTES'}</span><span className={`confidence-badge confidence-${describeConfidence(article).level}`} title={describeConfidence(article).note}>{describeConfidence(article).short} confidence</span><span className="story-time">{article.readingMinutes || 2} min read</span></div>
     <h3>{article.title}</h3>{article.dek && <p className="story-dek">{article.dek}</p>}
     <p className="story-summary">{article.summary}</p>
     {article.whyItMatters && <div className="why-box"><span>WHY IT MATTERS</span><p>{article.whyItMatters}</p></div>}
@@ -600,7 +601,7 @@ function App() {
               <h1>{lead.title}</h1>{lead.dek && <p className="lead-dek">{lead.dek}</p>}<p className="lead-summary">{lead.summary}</p>
               <div className="lead-actions"><button className="button button-light" onClick={() => toggleArticle(lead)}><Glyph name={reader.articleId === lead.id && reader.status === 'speaking' ? 'pause' : 'play'} size={16} />{reader.articleId === lead.id && reader.status === 'paused' ? 'Resume story' : reader.articleId === lead.id && reader.status === 'speaking' ? 'Pause story' : 'Listen to lead'}</button><span className="lead-read-time">{lead.readingMinutes || 2} MIN READ</span></div>
             </div>
-            <div className="lead-bottom"><span>01 of {String(articles.length).padStart(2, '0')}</span><span>Read the story, then follow the sources</span></div>
+            <div className="lead-bottom"><span>01 of {String(articles.length).padStart(2, '0')}</span><span className="lead-confidence">{describeConfidence(lead).label} · {describeConfidence(lead).note}</span></div>
           </article>
           <aside className="edition-card">
             <div className="edition-card-top"><span className="eyebrow">A LITTLE CONTEXT</span><Glyph name="headphones" size={19} /></div>
