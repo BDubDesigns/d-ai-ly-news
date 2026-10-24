@@ -10,6 +10,18 @@ import { buildSilentWav } from './lib/silence.js';
 const DATA_BASE = `${import.meta.env.BASE_URL}data/`;
 const EMPTY_READER = { mode: '', status: 'idle', articleId: '', articleTitle: '', articleIndex: 0, total: 0 };
 
+// Chrome cuts long utterances off and restarts the engine on every one, so it
+// needs small chunks. Firefox speaks long utterances fine, and fewer restarts
+// means far fewer gaps between sentences.
+function chunkLimitForThisBrowser() {
+  const agent = typeof navigator === 'undefined' ? '' : navigator.userAgent || '';
+  const isFirefox = /firefox/i.test(agent);
+  const isChrome = /chrome|chromium|crios/i.test(agent) && !isFirefox;
+  if (isFirefox) return 3200;
+  if (isChrome) return 180;
+  return 600;
+}
+
 function Glyph({ name, size = 18 }) {
   const shapes = {
     play: <path d="M7 5.6c0-.8.9-1.3 1.6-.9l10.1 6.1a1.4 1.4 0 0 1 0 2.4l-10.1 6.1c-.7.4-1.6-.1-1.6-.9V5.6Z" />,
@@ -89,6 +101,8 @@ function App() {
   const queueRef = useRef([]);
   const [feedback, setFeedback] = useState([]);
   const [consumedIds, setConsumedIds] = useState([]);
+  const [keepAliveOn, setKeepAliveOn] = useState(true);
+  const keepAliveRef = useRef(true);
   const voiceRef = useRef(null);
   const statusRef = useRef('idle');
   const sessionRef = useRef(null);
@@ -142,6 +156,11 @@ function App() {
       if (stored) setFeedback(JSON.parse(stored));
       const consumed = window.localStorage.getItem('daymark.consumed.v1');
       if (consumed) setConsumedIds(JSON.parse(consumed));
+      const keepAlive = window.localStorage.getItem('daymark.keepalive.v1');
+      if (keepAlive === 'off') {
+        keepAliveRef.current = false;
+        setKeepAliveOn(false);
+      }
     } catch {
       setFeedback([]);
     }
@@ -266,7 +285,7 @@ function App() {
   }
 
   function startKeepAlive() {
-    if (!('Audio' in window)) return;
+    if (!('Audio' in window) || !keepAliveRef.current) return;
     try {
       if (mediaRef.current) {
         mediaRef.current.audio.play().catch(() => {});
@@ -301,7 +320,7 @@ function App() {
 
   function loadArticle(session, index) {
     const article = session.items[index];
-    const chunks = chunkText(articleSpeechText(article));
+    const chunks = chunkText(articleSpeechText(article), chunkLimitForThisBrowser());
     session.articleIndex = index;
     session.chunks = chunks.length ? chunks : [article.title || 'This story has no text to read.'];
     session.chunkIndex = 0;
@@ -490,6 +509,18 @@ function App() {
     beginSession([article], 'article');
   }
 
+  function toggleKeepAlive() {
+    const next = !keepAliveOn;
+    keepAliveRef.current = next;
+    setKeepAliveOn(next);
+    try {
+      window.localStorage.setItem('daymark.keepalive.v1', next ? 'on' : 'off');
+    } catch {
+      return;
+    }
+    if (!next) stopKeepAlive();
+  }
+
   function toggleQueueItem(article) {
     const next = toggleQueue(queueRef.current, article.id);
     queueRef.current = next;
@@ -622,7 +653,11 @@ function App() {
                 {voices.map((voice) => <option key={voice.uri} value={voice.uri}>{voice.name} ({voice.lang})</option>)}
               </select>
             </label>
-            <span className="audio-caption">{voices.length ? `${voices.length} device voices found` : 'No device voices detected yet'} · keeps playing when you leave the tab</span>{voiceMessage && <p className="voice-message" role="status">{voiceMessage}</p>}
+            <label className="keepalive-toggle">
+              <input type="checkbox" checked={keepAliveOn} onChange={toggleKeepAlive} />
+              <span>Keep the audio session alive in the background</span>
+            </label>
+            <span className="audio-caption">{voices.length ? `${voices.length} device voices found` : 'No device voices detected yet'}</span>{voiceMessage && <p className="voice-message" role="status">{voiceMessage}</p>}
           </aside>
         </section>}
         <div className="desk-heading"><div><span className="eyebrow">THE DAY, IN TWO DESKS</span><h2>What matters today</h2></div><span className="desk-date">{formatDate(edition?.date, { month: 'long', day: 'numeric' })}</span></div>

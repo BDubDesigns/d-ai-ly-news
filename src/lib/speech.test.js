@@ -29,3 +29,10 @@ test('builds a looping silent WAV long enough for Chrome to keep audio focus', (
   assert.equal(wav.length, 44 + 6 * 8000);
   assert.equal(new DataView(wav.buffer).getUint32(24, true), 8000);
 });
+
+test('a long article stays one utterance when the engine can take it', () => {
+  const article = 'This is a sentence about a model release. '.repeat(20).trim();
+  const chunks = chunkText(article, 3200);
+  assert.equal(chunks.length, 1);
+  assert.ok(chunks[0].length > 500);
+});
