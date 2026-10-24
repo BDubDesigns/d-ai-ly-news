@@ -3,6 +3,7 @@ import { articleSpeechText, flattenArticles, sortEditions } from './lib/edition.
 import { chunkText } from './lib/speech.js';
 import { addToQueue, afterFinish, toggleQueue } from './lib/queue.js';
 import { upsertFeedback } from './lib/feedback.js';
+import { isConsumed, markConsumed, reachedThreshold, tally, unmarkConsumed } from './lib/consumed.js';
 import { buildSilentWav } from './lib/silence.js';
 
 const DATA_BASE = `${import.meta.env.BASE_URL}data/`;
@@ -37,18 +38,24 @@ function SourceLinks({ sources = [] }) {
   ))}</div>;
 }
 
-function ArticleCard({ article, reader, onListen, onToggleQueue, queued, feedback, onFeedback }) {
+function ArticleCard({ article, reader, onListen, onToggleQueue, queued, feedback, onFeedback, consumed, onToggleConsumed }) {
   const [drafting, setDrafting] = useState(false);
   const [comment, setComment] = useState(feedback?.comment || '');
   const active = reader.articleId === article.id && ['speaking', 'paused'].includes(reader.status);
   const label = active ? (reader.status === 'paused' ? 'Resume story' : 'Pause story') : 'Listen to story';
-  return <article className={`story-card${active ? ' is-reading' : ''}`}>
+  return <article className={`story-card${active ? ' is-reading' : ''}${consumed ? ' is-consumed' : ''}`}>
+    {consumed && <span className="consumed-stamp" aria-hidden="true">CONSUMED</span>}
     <div className="story-card-topline"><span>{article.kicker || 'FIELD NOTES'}</span><span className="story-time">{article.readingMinutes || 2} min read</span></div>
     <h3>{article.title}</h3>{article.dek && <p className="story-dek">{article.dek}</p>}
     <p className="story-summary">{article.summary}</p>
     {article.whyItMatters && <div className="why-box"><span>WHY IT MATTERS</span><p>{article.whyItMatters}</p></div>}
     {Array.isArray(article.asides) && article.asides.length > 0 && <div className="asides">{article.asides.map((line, index) => <p key={index}>{line}</p>)}</div>}
     <div className="feedback-row">
+      <button
+        className={`verdict consume-btn${consumed ? ' is-on' : ''}`}
+        onClick={() => onToggleConsumed(article, consumed)}
+        aria-pressed={consumed}
+      >{consumed ? 'Consumed' : 'Consume'}</button>
       <button className={`verdict${feedback?.verdict === 'like' ? ' is-on' : ''}`} onClick={() => onFeedback(article, 'like')} aria-pressed={feedback?.verdict === 'like'}>Helpful</button>
       <button className={`verdict${feedback?.verdict === 'dislike' ? ' is-on' : ''}`} onClick={() => onFeedback(article, 'dislike')} aria-pressed={feedback?.verdict === 'dislike'}>Not for me</button>
       <button className="verdict verdict-note" onClick={() => setDrafting((open) => !open)}>{comment ? 'Edit note' : 'Why?'}</button>
@@ -80,6 +87,7 @@ function App() {
   const [queue, setQueue] = useState([]);
   const queueRef = useRef([]);
   const [feedback, setFeedback] = useState([]);
+  const [consumedIds, setConsumedIds] = useState([]);
   const voiceRef = useRef(null);
   const statusRef = useRef('idle');
   const sessionRef = useRef(null);
@@ -131,6 +139,8 @@ function App() {
     try {
       const stored = window.localStorage.getItem('daymark.feedback.v1');
       if (stored) setFeedback(JSON.parse(stored));
+      const consumed = window.localStorage.getItem('daymark.consumed.v1');
+      if (consumed) setConsumedIds(JSON.parse(consumed));
     } catch {
       setFeedback([]);
     }
@@ -152,6 +162,7 @@ function App() {
   }, []);
 
   const editions = useMemo(() => sortEditions(manifest?.editions ?? []), [manifest]);
+  const consumption = useMemo(() => tally(consumedIds, articles.length), [consumedIds, articles.length]);
   const articles = useMemo(() => flattenArticles(edition), [edition]);
   const lead = articles.find((article) => article.id === edition?.leadArticleId) ?? articles[0];
 
@@ -167,6 +178,38 @@ function App() {
 
   function articleById(id) {
     return articles.find((article) => article.id === id);
+  }
+
+  function persistConsumed(next) {
+    setConsumedIds(next);
+    try {
+      window.localStorage.setItem('daymark.consumed.v1', JSON.stringify(next));
+    } catch {
+      return;
+    }
+  }
+
+  function consumeArticle(id) {
+    if (!id) return;
+    setConsumedIds((current) => {
+      const next = markConsumed(current, id);
+      try {
+        window.localStorage.setItem('daymark.consumed.v1', JSON.stringify(next));
+      } catch {
+        return next;
+      }
+      return next;
+    });
+  }
+
+  function toggleConsumed(article, alreadyConsumed) {
+    if (alreadyConsumed) {
+      const ok = window.confirm('Un-consume this story? It stays in the paper, it just goes back on your pile.');
+      if (!ok) return;
+      persistConsumed(unmarkConsumed(consumedIds, article.id));
+      return;
+    }
+    consumeArticle(article.id);
   }
 
   function saveFeedback(article, verdict, comment) {
@@ -330,6 +373,8 @@ function App() {
       if (sessionRef.current !== session) return;
       session.chunkIndex += 1;
       session.charOffset = 0;
+      const article = session.items[session.articleIndex];
+      if (article && reachedThreshold(session.chunkIndex, session.chunks.length)) consumeArticle(article.id);
       speakCurrentChunk(session);
     };
     utterance.onerror = (event) => {
@@ -583,7 +628,7 @@ function App() {
         <div className="coverage-layout"><div className="coverage-main">
           {sectionContent.map((section, index) => <section className="coverage-section" key={section.id}>
             <div className="section-heading"><div className={`section-marker marker-${index % 2}`}><span>{index === 0 ? 'A' : 'U'}</span></div><div><span className="eyebrow">{section.kicker || (index === 0 ? 'THE FRONTIER' : 'THE REPUBLIC')}</span><h2>{section.title}</h2></div><span className="section-total">{String(section.articles.length).padStart(2, '0')} STORIES</span></div>
-            <div className="story-grid">{section.articles.map((article) => <ArticleCard key={article.id} article={{ ...article, sectionTitle: section.title }} reader={reader} onListen={toggleArticle} onToggleQueue={toggleQueueItem} queued={queue.includes(article.id)} feedback={feedback.find((entry) => entry.date === edition?.date && entry.articleId === article.id)} onFeedback={saveFeedback} />)}</div>
+            <div className="story-grid">{section.articles.map((article) => <ArticleCard key={article.id} article={{ ...article, sectionTitle: section.title }} reader={reader} onListen={toggleArticle} onToggleQueue={toggleQueueItem} queued={queue.includes(article.id)} feedback={feedback.find((entry) => entry.date === edition?.date && entry.articleId === article.id)} onFeedback={saveFeedback} consumed={isConsumed(consumedIds, article.id)} onToggleConsumed={toggleConsumed} />)}</div>
           </section>)}
           {!sectionContent.length && <p className="empty-section">This edition is ready for its first stories.</p>}
         </div>
@@ -598,6 +643,10 @@ function App() {
           <span>{reader.status === 'paused' ? 'PAUSED' : reader.status === 'finished' ? (reader.mode === 'article' ? 'STORY COMPLETE' : 'EDITION COMPLETE') : reader.mode === 'edition' ? 'READING THE PAPER' : 'READING THIS STORY'}</span>
           <strong>{reader.articleTitle || 'Daymark edition'}</strong>
           <small>{reader.articleIndex} of {reader.total} stories{reader.mode === 'edition' ? ' · full paper' : ' · individual story'}</small>
+        </div>
+        <div className="dock-consumption" title="Stories consumed today">
+          <span>{consumption.consumed}/{consumption.total}</span>
+          <small>consumed</small>
         </div>
         <div className="dock-progress"><span style={{ width: `${reader.total ? (reader.articleIndex / reader.total) * 100 : 0}%` }} /></div>
         {reader.status === 'finished'

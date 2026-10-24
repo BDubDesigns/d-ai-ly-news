@@ -255,3 +255,12 @@ button:focus-visible, a:focus-visible { outline: 3px solid #77a5ff; outline-offs
 .verdict.is-on { border-color: var(--blue); background: #eaf1ff; color: #244a86; }
 .verdict-note { border-style: dashed; }
 .feedback-note { width: 100%; margin-top: 8px; padding: 9px 11px; border: 1px solid #dbe4e7; border-radius: 10px; font-family: inherit; font-size: 12px; resize: vertical; }
+
+.story-card { position: relative; overflow: hidden; }
+.story-card.is-consumed { background: #f7f9f9; }
+.story-card.is-consumed h3, .story-card.is-consumed .story-summary, .story-card.is-consumed .story-dek { opacity: .62; }
+.consumed-stamp { position: absolute; top: 14px; right: -6px; padding: 4px 10px; transform: rotate(7deg); border: 2px solid rgba(196, 92, 68, .55); border-radius: 4px; color: rgba(196, 92, 68, .55); font-size: 9px; font-weight: 800; letter-spacing: .16em; pointer-events: none; }
+.consume-btn.is-on { border-color: #c45c44; background: #fdeee9; color: #a8462f; }
+.dock-consumption { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 0 4px; color: #cfe0e6; }
+.dock-consumption span { font-size: 12px; font-weight: 700; letter-spacing: .02em; }
+.dock-consumption small { color: #8fa9b3; font-size: 7px; letter-spacing: .12em; text-transform: uppercase; }
