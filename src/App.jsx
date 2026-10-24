@@ -163,8 +163,8 @@ function App() {
   }, []);
 
   const editions = useMemo(() => sortEditions(manifest?.editions ?? []), [manifest]);
-  const consumption = useMemo(() => tally(consumedIds, articles.length), [consumedIds, articles.length]);
   const articles = useMemo(() => flattenArticles(edition), [edition]);
+  const consumption = useMemo(() => tally(consumedIds, articles.length), [consumedIds, articles.length]);
   const lead = articles.find((article) => article.id === edition?.leadArticleId) ?? articles[0];
 
   function setStatus(status) {
