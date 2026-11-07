@@ -2,6 +2,14 @@
   "schemaVersion": 1,
   "editions": [
     {
+      "date": "2026-11-07",
+      "label": "November 7, 2026",
+      "title": "The morning after",
+      "file": "editions/2026-11-07.json",
+      "storyCount": 7,
+      "isSample": false
+    },
+    {
       "date": "2026-10-24",
       "label": "October 24, 2026",
       "title": "Nine days out",
